@@ -235,3 +235,120 @@ df_cda = df_cda.transpose()
 
 #Creating dataframes for analysis
 CO2["Canada"] = df_cda.iloc[0]
+
+#Reseting the index column
+CO2 = CO2.reset_index(level=0)
+CO2 = CO2.rename(columns = {"index":"Year"})
+
+#Converting Year column to datetime object
+CO2["Year"] = pd.to_datetime(CO2["Year"])
+
+#Applying statistical tools
+print("Average CO2 emitted by Bangladesh")
+print(np.mean(CO2["Bangladesh"]))
+print("Average CO2 emitted by Australia")
+print(np.mean(CO2["Australia"]))
+print("Average CO2 emitted by Pakistan")
+print(np.mean(CO2["Pakistan"]))
+print("Average CO2 emitted by Canada")
+print(np.mean(CO2["Canada"]))
+print("Standard Deviation")
+print(CO2.std())
+
+#Bargraph
+df = pd.DataFrame(CO2)
+df = df[(df["Year"] > "2010-01-01 00:00:00") & 
+        (df["Year"] <= "2019-01-01 00:00:00")]
+plt.figure()
+df.plot.bar("Year", ["Australia", "Bangladesh", "Pakistan",
+                     "Canada"], width = 0.5)
+
+plt.xticks([0,1,2,3,4,5,6,7,8], 
+        labels = ["2011", "2012", "2013", "2014", "2015", "2016",
+            "2017", "2018", "2019"])
+plt.title("CO2 emissions")
+plt.savefig("CO2 emissions")
+plt.show()
+
+#getting australia data for arable land indicator
+df_arable_l = df_countries[df_countries["Indicator Name"] == "Arable land (% of land area)"]
+AUS = df_arable_l[df_arable_l["Country Name"] == "Australia"].transpose()
+AUS = AUS.drop(["Country Name", "Indicator Name"])
+
+# drop nan values
+AUS = AUS.dropna()
+AUS = AUS.transpose()
+
+#Creating dataframes for analysis
+Arable1 = pd.DataFrame()
+Arable1["Australia"] = AUS.iloc[0]
+
+#getting bangladesh data for arable land indicator
+BGD = df_arable_l[df_arable_l["Country Name"] == "Bangladesh"].transpose()
+BGD = BGD.drop(["Country Name", "Indicator Name"])
+
+# drop nan values
+BGD = BGD.dropna()
+BGD = BGD.transpose()
+
+#Creating dataframes for analysis
+Arable1["Bangladesh"] = BGD.iloc[0]
+
+#getting pakistan data for arable land indicator
+PAK = df_arable_l[df_arable_l["Country Name"] == "Pakistan"].transpose()
+PAK = PAK.drop(["Country Name", "Indicator Name"])
+
+# drop nan values
+PAK = PAK.dropna()
+PAK = PAK.transpose()
+
+
+#Creating dataframes for analysis
+Arable1["Pakistan"] = PAK.iloc[0]
+
+#getting canada data for arable land indicator
+CDA = df_arable_l[df_arable_l["Country Name"] == "Canada"].transpose()
+CDA = CDA.drop(["Country Name", "Indicator Name"])
+
+# drop nan values
+CDA = CDA.dropna()
+CDA = CDA.transpose()
+
+#Creating dataframes for analysis
+Arable1["Canada"] = CDA.iloc[0]
+
+#Reseting the index column
+Arable1 = Arable1.reset_index(level=0)
+Arable1 = Arable1.rename(columns = {"index":"Year"})
+
+#Converting Year column to datetime object
+Arable1["Year"] = pd.to_datetime(Arable1["Year"])
+
+#Applying statistical tools
+print("Average Arable land in Bangladesh")
+print(np.mean(Arable1["Bangladesh"]))
+print("Average Arable land in Australia")
+print(np.mean(Arable1["Australia"]))
+print("Average Arable land in Pakistan")
+print(np.mean(Arable1["Pakistan"]))
+print("Average Arable land in Canada")
+print(np.mean(Arable1["Canada"]))
+print("Standard Deviation")
+print(Arable1.std())
+
+
+#Bargraph
+df1 = pd.DataFrame(Arable1)
+df1 = df1[(df1["Year"] > "2010-01-01 00:00:00") & 
+        (df1["Year"] <= "2020-01-01 00:00:00")]
+
+plt.figure()
+df1.plot.bar("Year", ["Australia", "Bangladesh", "Pakistan",
+                     "Canada"], width = 0.5)
+
+plt.xticks([0,1,2,3,4,5,6,7,8,9], 
+        labels = ["2011", "2012", "2013", "2014", "2015", "2016",
+            "2017", "2018", "2019", "2020"])
+plt.title("Arabel land")
+plt.savefig("Arabel land")
+plt.show()
